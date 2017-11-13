@@ -34,8 +34,9 @@ def custom_score(game, player):
     float
         The heuristic value of the current game state to the specified player.
     """
-    # TODO: finish this function!
-    raise NotImplementedError
+    own = len(game.get_legal_moves(player))
+    opponent = 0#len(game.get_legal_moves(game.get_opponent(player)))
+    return float(own - opponent)
 
 
 def custom_score_2(game, player):
@@ -60,8 +61,7 @@ def custom_score_2(game, player):
     float
         The heuristic value of the current game state to the specified player.
     """
-    # TODO: finish this function!
-    raise NotImplementedError
+    return float(len(game.get_legal_moves(player)))
 
 
 def custom_score_3(game, player):
@@ -86,8 +86,10 @@ def custom_score_3(game, player):
     float
         The heuristic value of the current game state to the specified player.
     """
-    # TODO: finish this function!
-    raise NotImplementedError
+    blank = len(game.get_blank_spaces())
+    #own = game.get_legal_moves(player)
+    opponent = len(game.get_legal_moves(game.get_opponent(player)))
+    return float(blank - opponent)
 
 
 class IsolationPlayer:
@@ -170,6 +172,55 @@ class MinimaxPlayer(IsolationPlayer):
         # Return the best move from the last completed search iteration
         return best_move
 
+    def max_value(self, state, depth, max_depth):
+        """
+        Max value helper function as described in the AIMA text book. Returns
+        the maximum score possible in the current tree level. If the maximum depth
+        has been achieved it returns simply the maximum score of this level, without
+        calling the min value auxiliary function.
+        """
+        if self.time_left() < self.TIMER_THRESHOLD:
+            raise SearchTimeout()
+        #print("esta no max")
+        if state.is_loser(state.active_player):
+            #print("lost")
+            return float("-inf")#self.score(state, state.active_player)
+        if depth == max_depth:
+            #print("depth = 3")
+            return self.score(state, state.active_player)
+        v = float("-inf")
+        moves = state.get_legal_moves(state.active_player)
+        for move in moves:
+            v = max(v, self.min_value(state.forecast_move(move), depth + 1, max_depth))
+        #print("max: ")
+        #print(v)
+        return v
+        
+    
+    def min_value(self, state, depth, max_depth):
+        """
+        Min value helper function as described in the AIMA text book. Returns
+        the minimum score possible in the current tree level. If the maximum depth
+        has been achieved it returns simply the minimum score of this level, without
+        calling the max value auxiliary function.
+        """
+        if self.time_left() < self.TIMER_THRESHOLD:
+            raise SearchTimeout()
+        #print("esta no min")
+        if state.is_loser(state.active_player):
+            #print("lost")
+            return float("+inf")#self.score(state, state.active_player)
+        if depth == max_depth:
+            #print("depth = 3")
+            return self.score(state, state.inactive_player)
+        v = float("+inf")
+        moves = state.get_legal_moves(state.active_player)
+        for move in moves:
+            v = min(v, self.max_value(state.forecast_move(move), depth + 1, max_depth))
+        #print("min: ")
+        #print(v)
+        return v
+    
     def minimax(self, game, depth):
         """Implement depth-limited minimax search algorithm as described in
         the lectures.
@@ -211,9 +262,15 @@ class MinimaxPlayer(IsolationPlayer):
         """
         if self.time_left() < self.TIMER_THRESHOLD:
             raise SearchTimeout()
-
-        # TODO: finish this function!
-        raise NotImplementedError
+        moves = game.get_legal_moves(game.active_player)
+        action = (-1,-1)
+        val = float("-inf")
+        for move in moves:
+            temp = self.min_value(game.forecast_move(move), 1, depth)
+            if temp > val:
+                val = temp
+                action = move
+        return action
 
 
 class AlphaBetaPlayer(IsolationPlayer):
