@@ -4,6 +4,8 @@ and include the results in your report.
 """
 import random
 
+timer_slack = 100.0
+
 
 class SearchTimeout(Exception):
     """Subclass base exception for code clarity. """
@@ -181,19 +183,15 @@ class MinimaxPlayer(IsolationPlayer):
         """
         if self.time_left() < self.TIMER_THRESHOLD:
             raise SearchTimeout()
-        #print("esta no max")
+        #print(self.time_left())
         if state.is_loser(state.active_player):
-            #print("lost")
             return float("-inf")#self.score(state, state.active_player)
         if depth == max_depth:
-            #print("depth = 3")
             return self.score(state, state.active_player)
         v = float("-inf")
         moves = state.get_legal_moves(state.active_player)
         for move in moves:
             v = max(v, self.min_value(state.forecast_move(move), depth + 1, max_depth))
-        #print("max: ")
-        #print(v)
         return v
         
     
@@ -206,19 +204,15 @@ class MinimaxPlayer(IsolationPlayer):
         """
         if self.time_left() < self.TIMER_THRESHOLD:
             raise SearchTimeout()
-        #print("esta no min")
+        #print(self.time_left())
         if state.is_loser(state.active_player):
-            #print("lost")
             return float("+inf")#self.score(state, state.active_player)
         if depth == max_depth:
-            #print("depth = 3")
             return self.score(state, state.inactive_player)
         v = float("+inf")
         moves = state.get_legal_moves(state.active_player)
         for move in moves:
             v = min(v, self.max_value(state.forecast_move(move), depth + 1, max_depth))
-        #print("min: ")
-        #print(v)
         return v
     
     def minimax(self, game, depth):
@@ -262,6 +256,7 @@ class MinimaxPlayer(IsolationPlayer):
         """
         if self.time_left() < self.TIMER_THRESHOLD:
             raise SearchTimeout()
+        #print(self.time_left())
         moves = game.get_legal_moves(game.active_player)
         action = (-1,-1)
         val = float("-inf")
@@ -309,11 +304,79 @@ class AlphaBetaPlayer(IsolationPlayer):
             Board coordinates corresponding to a legal move; may return
             (-1, -1) if there are no available legal moves.
         """
+        # time slack to avoid timeout
         self.time_left = time_left
+        #time = self.time_left()
+        best_move = (-1, -1)
+        depth = 1
+        while True:
+            try:
+                depth += 1
+                move = self.alphabeta(game, depth)
+                if -1 in move:
+                    break
+                best_move = move
+            except SearchTimeout:
+                break
+        
+        return best_move
 
-        # TODO: finish this function!
-        raise NotImplementedError
 
+    def max_value(self, state, depth, max_depth, alpha, beta):
+        """
+        Max value helper function as described in the AIMA text book. Returns
+        the maximum score possible in the current tree level. If the maximum depth
+        has been achieved it returns simply the maximum score of this level, without
+        calling the min value auxiliary function.
+        """
+        if self.time_left() < self.TIMER_THRESHOLD:
+            raise SearchTimeout()
+        if self.time_left() < self.TIMER_THRESHOLD * 9:
+            return None
+        if state.is_loser(state.active_player):
+            return float("-inf")#self.score(state, state.active_player)
+        if depth == max_depth:
+            return self.score(state, state.active_player)
+        v = float("-inf")
+        moves = state.get_legal_moves(state.active_player)
+        for move in moves:
+            vmin = self.min_value(state.forecast_move(move), depth + 1, max_depth, alpha, beta)
+            if vmin == None:
+                return None
+            v = max(v, vmin)
+            if v >= beta:
+                return v
+            alpha = max(alpha, v)
+        return v
+        
+    
+    def min_value(self, state, depth, max_depth, alpha, beta):
+        """
+        Min value helper function as described in the AIMA text book. Returns
+        the minimum score possible in the current tree level. If the maximum depth
+        has been achieved it returns simply the minimum score of this level, without
+        calling the max value auxiliary function.
+        """
+        if self.time_left() < self.TIMER_THRESHOLD:
+            raise SearchTimeout()
+        if self.time_left() < self.TIMER_THRESHOLD * 9:
+            return None
+        if state.is_loser(state.active_player):
+            return float("+inf")#self.score(state, state.active_player)
+        if depth == max_depth:
+            return self.score(state, state.inactive_player)
+        v = float("+inf")
+        moves = state.get_legal_moves(state.active_player)
+        for move in moves:
+            vmax = self.max_value(state.forecast_move(move), depth + 1, max_depth, alpha, beta)
+            if vmax == None:
+                return None
+            v = min(v, vmax)
+            if v <= alpha:
+                return v
+            beta = min(beta, v)
+        return v
+    
     def alphabeta(self, game, depth, alpha=float("-inf"), beta=float("inf")):
         """Implement depth-limited minimax search with alpha-beta pruning as
         described in the lectures.
@@ -361,6 +424,17 @@ class AlphaBetaPlayer(IsolationPlayer):
         """
         if self.time_left() < self.TIMER_THRESHOLD:
             raise SearchTimeout()
-
-        # TODO: finish this function!
-        raise NotImplementedError
+        if self.time_left() < self.TIMER_THRESHOLD * 9:
+            return None
+        moves = game.get_legal_moves(game.active_player)
+        action = (-1,-1)
+        val = float("-inf")
+        for move in moves:
+            temp = self.min_value(game.forecast_move(move), 1, depth, alpha, beta)
+            if temp == None:
+                return (-1, -1)# nao pode retornar isto! tem de retornar um valor valido..
+            if temp > val:
+                val = temp
+                action = move
+                alpha = max(alpha, val)
+        return action

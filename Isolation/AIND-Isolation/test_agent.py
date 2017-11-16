@@ -12,13 +12,15 @@ import board_test
 
 from collections import namedtuple
 
+import timeit
+
 Agent = namedtuple("Agent", ["player", "name"])
 
 from importlib import reload
 
 
-def time_left():
-    return 30000 # 30seconds, just for testing purposes
+def time_left(fun=timeit.default_timer):
+    return 2000 #- ( 1000* fun() ) # 
 
 class IsolationTest(unittest.TestCase):
     """Unit tests for isolation agents"""
@@ -82,6 +84,24 @@ class IsolationTest(unittest.TestCase):
         play = agent.get_move(self.game, time_left)
         #self.game = self.game.forecast_move(play)
         print("player 1: " + str(play))
+        
+    def test_alphabeta(self):
+        """
+        tests with 5 square board from classes
+        """
+        print("alphabeta with new board")
+        self.setUp()#2()
+        agent = game_agent.AlphaBetaPlayer()
+        play = agent.get_move(self.game, time_left)
+        self.game = self.game.forecast_move(play)
+        print("player 1: " + str(play))
+        play = agent.get_move(self.game, time_left)
+        self.game = self.game.forecast_move(play)
+        print("player 2: " + str(play))
+        play = agent.get_move(self.game, time_left)
+        #self.game = self.game.forecast_move(play)
+        print("player 1: " + str(play))
+
 
 if __name__ == '__main__':
     unittest.main()
