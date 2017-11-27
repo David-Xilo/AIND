@@ -36,9 +36,13 @@ def custom_score(game, player):
     float
         The heuristic value of the current game state to the specified player.
     """
+    #opponent_moves = len(game.get_legal_moves(game.get_opponent(player)))
+    #own_moves = len(game.get_legal_moves(player))
+    opp_moves = len(game.get_legal_moves(game.get_opponent(player)))
     own = len(game.get_legal_moves(player))
-    opponent = 0#len(game.get_legal_moves(game.get_opponent(player)))
-    return float(own - opponent)
+    #blanks = len(game.get_blank_spaces())
+    heuristic = 2 * own - opp_moves
+    return float(heuristic)
 
 
 def custom_score_2(game, player):
@@ -63,7 +67,12 @@ def custom_score_2(game, player):
     float
         The heuristic value of the current game state to the specified player.
     """
-    return float(len(game.get_legal_moves(player)))
+    #opponent_moves = len(game.get_legal_moves(game.get_opponent(player)))
+    opp_moves = len(game.get_legal_moves(game.get_opponent(player)))
+    own = len(game.get_legal_moves(player))
+    #blanks = len(game.get_blank_spaces())
+    heuristic = own - opp_moves
+    return float(heuristic)
 
 
 def custom_score_3(game, player):
@@ -88,11 +97,15 @@ def custom_score_3(game, player):
     float
         The heuristic value of the current game state to the specified player.
     """
-    blank = len(game.get_blank_spaces())
-    #own = game.get_legal_moves(player)
-    opponent = len(game.get_legal_moves(game.get_opponent(player)))
-    return float(blank - opponent)
-
+    #opponent_moves = len(game.get_legal_moves(game.get_opponent(player)))
+    #own_moves = len(game.get_legal_moves(player))
+    #heuristic = 3 * own_moves - opponent_moves
+    #return float(heuristic)
+    opp_moves = len(game.get_legal_moves(game.get_opponent(player)))
+    own = len(game.get_legal_moves(player))
+    #blanks = len(game.get_blank_spaces())
+    heuristic = own - 2 * opp_moves
+    return float(heuristic)
 
 class IsolationPlayer:
     """Base class for minimax and alphabeta agents -- this class is never
@@ -159,14 +172,21 @@ class MinimaxPlayer(IsolationPlayer):
         """
         self.time_left = time_left
 
-        # Initialize the best move so that this function returns something
+        # Initialize the best move so that this function returns a legal move
         # in case the search fails due to timeout
-        best_move = (-1, -1)
+        moves = game.get_legal_moves(self)
+        #initializes the best move and the depth to 0
+        if not moves:
+            return (-1, -1)
+        best_move = moves[0]
 
         try:
             # The try/except block will automatically catch the exception
             # raised when the timer is about to expire.
-            return self.minimax(game, self.search_depth)
+            move = self.minimax(game, self.search_depth)
+            if move == (-1, -1):
+                return best_move
+            return move
 
         except SearchTimeout:
             pass  # Handle any actions required after timeout as needed
@@ -174,45 +194,59 @@ class MinimaxPlayer(IsolationPlayer):
         # Return the best move from the last completed search iteration
         return best_move
 
-    def max_value(self, state, depth, max_depth):
+    def max_value(self, state, depth):
         """
         Max value helper function as described in the AIMA text book. Returns
         the maximum score possible in the current tree level. If the maximum depth
         has been achieved it returns simply the maximum score of this level, without
         calling the min value auxiliary function.
         """
+
+        # checks if the time is about to expire
         if self.time_left() < self.TIMER_THRESHOLD:
             raise SearchTimeout()
-        #print(self.time_left())
-        if state.is_loser(state.active_player):
-            return float("-inf")#self.score(state, state.active_player)
-        if depth == max_depth:
-            return self.score(state, state.active_player)
+        
+        # checks if we reached the desired depth
+        if depth == 0:
+            return self.score(state, self)
+
+        # initializes the best result to -inf (worst possible result)
         v = float("-inf")
-        moves = state.get_legal_moves(state.active_player)
+        
+        moves = state.get_legal_moves(self)
+
+        # iterates the legal moves and chooses the maximum score of the level below in the tree
         for move in moves:
-            v = max(v, self.min_value(state.forecast_move(move), depth + 1, max_depth))
+            v = max(v, self.min_value(state.forecast_move(move), depth - 1))
+        
         return v
         
     
-    def min_value(self, state, depth, max_depth):
+    def min_value(self, state, depth):
         """
         Min value helper function as described in the AIMA text book. Returns
         the minimum score possible in the current tree level. If the maximum depth
         has been achieved it returns simply the minimum score of this level, without
         calling the max value auxiliary function.
         """
+
+        # checks if the time is about to expire
         if self.time_left() < self.TIMER_THRESHOLD:
             raise SearchTimeout()
-        #print(self.time_left())
-        if state.is_loser(state.active_player):
-            return float("+inf")#self.score(state, state.active_player)
-        if depth == max_depth:
-            return self.score(state, state.inactive_player)
+        
+        # checks if we reached the desired depth, if so, returns the score of the agent
+        if depth == 0:
+            return self.score(state, self)
+
+        # initializes the minimum score to +inf (best possible score)
         v = float("+inf")
-        moves = state.get_legal_moves(state.active_player)
+        moves = state.get_legal_moves(state.get_opponent(self))
+
+        # iterates the legal moves of the opponent, and chooses the one with the minimum score (the score is relative to the agent)
+        # of the level below in the tree
         for move in moves:
-            v = min(v, self.max_value(state.forecast_move(move), depth + 1, max_depth))
+            v = min(v, self.max_value(state.forecast_move(move), depth - 1))
+        
         return v
     
     def minimax(self, game, depth):
@@ -254,14 +288,19 @@ class MinimaxPlayer(IsolationPlayer):
                 each helper function or else your agent will timeout during
                 testing.
         """
+        # checks if the time is about to expire
         if self.time_left() < self.TIMER_THRESHOLD:
             raise SearchTimeout()
-        #print(self.time_left())
-        moves = game.get_legal_moves(game.active_player)
+        
+        moves = game.get_legal_moves(self)
         action = (-1,-1)
+
+        # this is the root of our tree, and its a max node, so we initialize the max score to -inf (worst possible score)
         val = float("-inf")
+
+        # iterates the legal moves of the agent, and chooses the move with the maximum score of the level below in the tree
         for move in moves:
-            temp = self.min_value(game.forecast_move(move), 1, depth)
+            temp = self.min_value(game.forecast_move(move), depth - 1)
             if temp > val:
                 val = temp
                 action = move
@@ -304,76 +343,98 @@ class AlphaBetaPlayer(IsolationPlayer):
             Board coordinates corresponding to a legal move; may return
             (-1, -1) if there are no available legal moves.
         """
-        # time slack to avoid timeout
         self.time_left = time_left
-        #time = self.time_left()
-        best_move = (-1, -1)
+
+        moves = game.get_legal_moves(self)
+        #initializes the best move so it returns a legal move in case of timeout, and the depth to 1
+        if not moves:
+            return (-1, -1)
+        best_move = moves[0]
+
         depth = 1
-        while True:
-            try:
-                depth += 1
-                move = self.alphabeta(game, depth)
-                if -1 in move:
-                    break
-                best_move = move
-            except SearchTimeout:
-                break
         
+        # every iteration it increments the depth and runs alphabeta
+        try:
+            while True:
+                move = self.alphabeta(game, depth)
+
+                # if the move is valid, updates the best move, else it returns the best move so far
+                if move == (-1, -1):
+                    return best_move
+                best_move = move
+                depth += 1
+
+        except SearchTimeout:
+            pass
+
         return best_move
 
 
-    def max_value(self, state, depth, max_depth, alpha, beta):
+    def max_value(self, state, depth, alpha, beta):
         """
         Max value helper function as described in the AIMA text book. Returns
         the maximum score possible in the current tree level. If the maximum depth
         has been achieved it returns simply the maximum score of this level, without
         calling the min value auxiliary function.
         """
+        # first, checks the timeout condition
         if self.time_left() < self.TIMER_THRESHOLD:
             raise SearchTimeout()
-        if self.time_left() < self.TIMER_THRESHOLD * 9:
-            return None
-        if state.is_loser(state.active_player):
-            return float("-inf")#self.score(state, state.active_player)
-        if depth == max_depth:
-            return self.score(state, state.active_player)
+        
+        # since it is a max node, if this is the final depth we're searching, we
+        # must return the score of the agent
+        if depth == 0:
+            return self.score(state, self)
+        
+        # initializes the maximum score to -inf (minimum possible score)
         v = float("-inf")
-        moves = state.get_legal_moves(state.active_player)
+        moves = state.get_legal_moves(self)
+
+        # iterates the agent's legal moves, and chooses the maximum of the values of the level below in the tree
+        # if the score is bigger than beta, it means the level above in the tree (min node) won't let the game reach
+        # this node
         for move in moves:
-            vmin = self.min_value(state.forecast_move(move), depth + 1, max_depth, alpha, beta)
-            if vmin == None:
-                return None
+            vmin = self.min_value(state.forecast_move(move), depth - 1, alpha, beta)
+            # updates the maximum value
             v = max(v, vmin)
+            # returns the maximum value, in case this is bigger than the maximum lower limit beta
             if v >= beta:
                 return v
+            # updates the value of alpha, which is the minimum upper limit
             alpha = max(alpha, v)
         return v
         
-    
-    def min_value(self, state, depth, max_depth, alpha, beta):
+    def min_value(self, state, depth, alpha, beta):
         """
         Min value helper function as described in the AIMA text book. Returns
         the minimum score possible in the current tree level. If the maximum depth
         has been achieved it returns simply the minimum score of this level, without
         calling the max value auxiliary function.
         """
+        # first, checks the timeout condition
         if self.time_left() < self.TIMER_THRESHOLD:
             raise SearchTimeout()
-        if self.time_left() < self.TIMER_THRESHOLD * 9:
-            return None
-        if state.is_loser(state.active_player):
-            return float("+inf")#self.score(state, state.active_player)
-        if depth == max_depth:
-            return self.score(state, state.inactive_player)
+
+        # this is a min node, so if it is the maximum depth we're searching, it must
+        # return the score of the agent
+        if depth == 0:
+            return self.score(state, self)
+        
+        # initializes the minimum score to +inf (maximum possible score)
         v = float("+inf")
-        moves = state.get_legal_moves(state.active_player)
+        moves = state.get_legal_moves(state.get_opponent(self))
+
+        # iterates the legal moves of the opponent, and chooses the minimum value of the values of the level below in the tree
+        # if we find a value that is inferior to alpha we return, because we know that the node in the level above is a max node,
+        # and has a value of at least alpha to choose, and so the game won't reach this node
         for move in moves:
-            vmax = self.max_value(state.forecast_move(move), depth + 1, max_depth, alpha, beta)
-            if vmax == None:
-                return None
+            vmax = self.max_value(state.forecast_move(move), depth - 1, alpha, beta)
+            # updates the minimum value
             v = min(v, vmax)
+            # returns the maximum value, in case this is bigger than the minimum upper limit beta
             if v <= alpha:
                 return v
+            # updates the value of beta, which is the minimum upper limit
             beta = min(beta, v)
         return v
     
@@ -422,19 +483,23 @@ class AlphaBetaPlayer(IsolationPlayer):
                 each helper function or else your agent will timeout during
                 testing.
         """
+        #first checks for timeout condition
         if self.time_left() < self.TIMER_THRESHOLD:
             raise SearchTimeout()
-        if self.time_left() < self.TIMER_THRESHOLD * 9:
-            return None
-        moves = game.get_legal_moves(game.active_player)
-        action = (-1,-1)
+
+        moves = game.get_legal_moves(self)
+
+        action = (-1, -1)
         val = float("-inf")
+        # we are currently at the first move of the player, so it will be the top
+        # max node, regarding of the order that players play. Given this,
+        # it iterates through all moves, and returns the one that has a maximum score
+        # amoungst the child nodes. The values of alpha and beta start
+        # by being -inf and +inf. In this level only alpha is updated (alpha is the best choice this node will have)
         for move in moves:
-            temp = self.min_value(game.forecast_move(move), 1, depth, alpha, beta)
-            if temp == None:
-                return (-1, -1)# nao pode retornar isto! tem de retornar um valor valido..
+            temp = self.min_value(game.forecast_move(move), depth - 1, alpha, beta)
             if temp > val:
                 val = temp
                 action = move
-                alpha = max(alpha, val)
+            alpha = max(alpha, val)
         return action

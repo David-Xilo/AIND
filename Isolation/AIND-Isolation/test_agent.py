@@ -36,54 +36,9 @@ class IsolationTest(unittest.TestCase):
         self.player1 = 0#"Player1"
         self.player2 = 1#"Player2"
         self.game = board_test.GameState(self.player1, self.player2)
+        #self.assertEqual(score, 0.0)
 
-    def test_first_score1(self):
-        self.setUp()
-        score = game_agent.custom_score(self.game, self.player1)
-        self.assertEqual(score, 49)#0.0)
-        
     
-    def test_first_score2(self):
-        self.setUp()
-        score = game_agent.custom_score_2(self.game, self.player1)
-        self.assertEqual(score, 49.0)
-        
-    def test_first_score3(self):
-        self.setUp()
-        score = game_agent.custom_score_3(self.game, self.player1)
-        self.assertEqual(score, 0.0)
-        
-    def test_minimax(self):
-        
-        self.setUp()
-        agent = game_agent.MinimaxPlayer()
-        play = agent.get_move(self.game, time_left)
-        self.assertTrue(0 <= play[0] <= 7)
-        self.assertTrue(0 <= play[1] <= 7)
-        self.game.apply_move(play)
-        play2 = agent.get_move(self.game, time_left)
-        self.assertFalse(play == play2)
-        self.assertTrue(0 <= play2[0] <= 7)
-        self.assertTrue(0 <= play2[1] <= 7)
-        self.game.apply_move(play2)
-        play = agent.get_move(self.game, time_left)
-        self.assertTrue(play in self.game.get_legal_moves(self.game.active_player))
-
-    def test_simple_minimax(self):
-        """
-        tests with 5 square board from classes
-        """
-        self.setUp2()
-        agent = game_agent.MinimaxPlayer()
-        play = agent.get_move(self.game, time_left)
-        self.game = self.game.forecast_move(play)
-        print("player 1: " + str(play))
-        play = agent.get_move(self.game, time_left)
-        self.game = self.game.forecast_move(play)
-        print("player 2: " + str(play))
-        play = agent.get_move(self.game, time_left)
-        #self.game = self.game.forecast_move(play)
-        print("player 1: " + str(play))
         
     def test_alphabeta(self):
         """
