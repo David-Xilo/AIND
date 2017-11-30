@@ -22,8 +22,8 @@ from sample_players import (RandomPlayer, open_move_score,
                             improved_score, center_score)
 from game_agent import (MinimaxPlayer, AlphaBetaPlayer, custom_score,
                         custom_score_2, custom_score_3)
-
-NUM_MATCHES = 5  # number of matches against each opponent
+#increased the number of matches!
+NUM_MATCHES = 25#5  # number of matches against each opponent
 TIME_LIMIT = 150  # number of milliseconds before timeout
 
 DESCRIPTION = """

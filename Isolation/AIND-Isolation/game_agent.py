@@ -36,12 +36,13 @@ def custom_score(game, player):
     float
         The heuristic value of the current game state to the specified player.
     """
-    #opponent_moves = len(game.get_legal_moves(game.get_opponent(player)))
-    #own_moves = len(game.get_legal_moves(player))
-    opp_moves = len(game.get_legal_moves(game.get_opponent(player)))
     own = len(game.get_legal_moves(player))
-    #blanks = len(game.get_blank_spaces())
-    heuristic = 2 * own - opp_moves
+    h, w = game.get_player_location(player)
+    # centrality will be bigger the more the player is located in the center of the board
+    centrality = abs( (game.height/2) - h) + abs( (game.width/2) - w)
+    # the heuristic will give more importance to the number of player moves, but it will 
+    # penalize plays that go further away from the center of the board
+    heuristic = 2 * own - centrality
     return float(heuristic)
 
 
@@ -67,11 +68,15 @@ def custom_score_2(game, player):
     float
         The heuristic value of the current game state to the specified player.
     """
-    #opponent_moves = len(game.get_legal_moves(game.get_opponent(player)))
-    opp_moves = len(game.get_legal_moves(game.get_opponent(player)))
-    own = len(game.get_legal_moves(player))
-    #blanks = len(game.get_blank_spaces())
-    heuristic = own - opp_moves
+    h, w = game.get_player_location(player)
+    # selects the vertical axis location of the player, counting from the side where
+    # the player is closer
+    y_axis = min( abs(game.height - h), abs(h - game.height) )
+    # selects the horizontal axis location of the player, counting from the side where
+    # the player is closer
+    x_axis = min( abs(game.width - w), abs(w - game.width) )
+    # this heuristic tries to minimize the x_axis and y_axis measures, this way the agent will try to maintain near the edges
+    heuristic = (game.height - y_axis) + (game.width - x_axis)
     return float(heuristic)
 
 
@@ -97,13 +102,8 @@ def custom_score_3(game, player):
     float
         The heuristic value of the current game state to the specified player.
     """
-    #opponent_moves = len(game.get_legal_moves(game.get_opponent(player)))
-    #own_moves = len(game.get_legal_moves(player))
-    #heuristic = 3 * own_moves - opponent_moves
-    #return float(heuristic)
     opp_moves = len(game.get_legal_moves(game.get_opponent(player)))
     own = len(game.get_legal_moves(player))
-    #blanks = len(game.get_blank_spaces())
     heuristic = own - 2 * opp_moves
     return float(heuristic)
 
