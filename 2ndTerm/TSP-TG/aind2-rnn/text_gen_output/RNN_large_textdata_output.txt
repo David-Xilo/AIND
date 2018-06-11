@@ -1,35 +1,35 @@
 -------------------
 input chars = 
-s eyes she eclipses and predominates the whole of her sex. it was not that he felt any emotion akin "
-predicted chars = 
-hmrete i o ee.h ara hreei  ok nt tel ote o o o o a acias frmnme a egn hs rtrnehd o eeprtorae  esede "
--------------------
-input chars = 
  her sex. it was not that he felt any emotion akin to love for irene adler. all emotions, and that o"
 predicted chars = 
- ade rt nte,tnn hrwd oeert hr adiiii.i ule oru eee o a ar hm a ita al.hr hddrbe.y eee o a ays frm hd"
+eero ad or o afar.int eee hsrwlde t a etoetigs o a atloi.in adecaet hserigt hsrbrldigt nt rsnil adhi"
 -------------------
 input chars = 
- to love for irene adler. all emotions, and that one particularly, were abhorrent to his cold, preci"
+erexcellent for drawing the veil from mens motives and actions. but for the trained reasoner to admi"
 predicted chars = 
-esddbe flnw hsstin hd ntetos o a asyigt n ee o a a nwt nttral o a as.it nthr isevrybe fo aae ntes o "
--------------------
-input chars = 
-se but admirably balanced mind. he was, i take it, the most perfect reasoning and observing machine "
-predicted chars = 
-hsefe haee o a avr frm hssees hdee,a h eedd nt rsnig o a ote e.t nte o n u n fae fntrntes nters i o "
--------------------
-input chars = 
-that the world has seen, but as a lover he would have placed himself in a false position. he never s"
-predicted chars = 
-m asiu fo hs a ote o rmaknt.in.i o m raceaiy adtrtadd ntersak ntes hsee hswrldto.hn eee asa asi hvrt"
--------------------
-input chars = 
-predominates the whole of her sex. it was not that he felt any emotion akin to love for irene adler."
-predicted chars = 
-ih hsed othrw ao orae o a ar  o oe fatontls o a as  o o o o o a oetoe.ie hss adeo hmreeis.ih asa al "
+ o erete ha eese frmnies t ade n hsednd hsrcldtcuiss nterale ntrcae fo asa oe o a ar esee.i o eenigt"
 -------------------
 input chars = 
  of dubious and questionable memory. i had seen little of holmes lately. my marriage had drifted us "
 predicted chars = 
-nt rsat fgm i apraigt   e o h hvr hr aylnigt nre i a ra a ot i auh.iua o lbege o o a o n o o fwowm o"
+nthrgtins fo ntee fo hde.ih asesttt eeeti o nun hsrdrcie.in nte eeadnt eeras frmnied o o etesl etete"
+-------------------
+input chars = 
+e singular tragedy of the atkinson brothers at trincomalee, and finally of the mission which he had "
+predicted chars = 
+eee hr acet.i sae hmrcre frmties,wo eel hsrcldut yu aletlte.i o a are a uoeos ntes fo tee.iesa eeeyh"
+-------------------
+input chars = 
+y malignant bootslitting specimen of the london slavey. as to your practice, if a gentleman walks in"
+predicted chars = 
+o ntnrnn frtete hsrees nt atr hsrgan.t n eeet hmreid tak.in hsesef hsmrldktins rsade fo o av nteslfo"
+-------------------
+input chars = 
+ten. the man who wrote it was presumably well to do, i remarked, endeavouring to imitate my companio"
+predicted chars = 
+san i epetine i a ot oe o a it ot o evryte.ie.ie,t o a ar  a a asot fo arae.a o a ary n eee hded n h"
+-------------------
+input chars = 
+ loud and authoritative tap. come in! said holmes. a man entered who could hardly have been less tha"
+predicted chars = 
+ alyigt hsrnlr.ie.i o a ay adigte frm aaee hsmlnd isa areeie hs eene a oee o adiis n hr otesa al eee"
