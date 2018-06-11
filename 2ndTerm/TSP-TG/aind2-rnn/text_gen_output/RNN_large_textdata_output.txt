@@ -1,35 +1,35 @@
 -------------------
 input chars = 
-his eyes she eclipses and predominates the whole of her sex. it was not that he felt any emotion aki"
+s eyes she eclipses and predominates the whole of her sex. it was not that he felt any emotion akin "
 predicted chars = 
-gt nt ot oe hm edat nt adal hseee ntor nthrs nt roo hsrcath o a atees hmr adiat frm hm lak ntee ntes"
+hmrete i o ee.h ara hreei  ok nt tel ote o o o o a acias frmnme a egn hs rtrnehd o eeprtorae  esede "
 -------------------
 input chars = 
-of her sex. it was not that he felt any emotion akin to love for irene adler. all emotions, and that"
+ her sex. it was not that he felt any emotion akin to love for irene adler. all emotions, and that o"
 predicted chars = 
-is hsrpsin hsedtn nthrs nt ruh oe fo a ad o t nthrs fo oe ra ra a ee a utees fo yu yu n hvrs o oge h"
+ ade rt nte,tnn hrwd oeert hr adiiii.i ule oru eee o a ar hm a ita al.hr hddrbe.y eee o a ays frm hd"
 -------------------
 input chars = 
-in to love for irene adler. all emotions, and that one particularly, were abhorrent to his cold, pre"
+ to love for irene adler. all emotions, and that one particularly, were abhorrent to his cold, preci"
 predicted chars = 
-eel,buly o adae hd etod hmsein fo hsrain hsres.ah eeeee alras hm adsaie frm hmnlds nteea o a aaet nt"
+esddbe flnw hsstin hd ntetos o a asyigt n ee o a a nwt nttral o a as.it nthr isevrybe fo aae ntes o "
 -------------------
 input chars = 
-cise but admirably balanced mind. he was, i take it, the most perfect reasoning and observing machin"
+se but admirably balanced mind. he was, i take it, the most perfect reasoning and observing machine "
 predicted chars = 
- o a ate a atesaton  o oga o tesaton,wsee o tie.ih a ee aa acnttettn fo a atee fcutesaee fo a ad o a"
+hsefe haee o a avr frm hssees hdee,a h eedd nt rsnig o a ote e.t nte o n u n fae fntrntes nters i o "
 -------------------
 input chars = 
-e that the world has seen, but as a lover he would have placed himself in a false position. he never"
+that the world has seen, but as a lover he would have placed himself in a false position. he never s"
 predicted chars = 
-sies o a aaet hm edeas frm hm lntr nt o agae a tesaoe fo a agin a tesatos fo hmr hmr ngrasatsan adtr"
+m asiu fo hs a ote o rmaknt.in.i o m raceaiy adtrtadd ntersak ntes hsee hswrldto.hn eee asa asi hvrt"
 -------------------
 input chars = 
-d predominates the whole of her sex. it was not that he felt any emotion akin to love for irene adle"
+predominates the whole of her sex. it was not that he felt any emotion akin to love for irene adler."
 predicted chars = 
- a tetoe fo teswfrmt o t atae ft nm hmr aday oter oeti fo a agin adte hdr atos.wtee nt i a atees frm"
+ih hsed othrw ao orae o a ar  o oe fatontls o a as  o o o o o a oetoe.ie hss adeo hmreeis.ih asa al "
 -------------------
 input chars = 
-r, of dubious and questionable memory. i had seen little of holmes lately. my marriage had drifted u"
+ of dubious and questionable memory. i had seen little of holmes lately. my marriage had drifted us "
 predicted chars = 
- i a ot rsud ta i a eeet nteee o ecetint fo tesmte hsrbbt o a atees n a ates fcmlas fo a agin t adig"
+nt rsat fgm i apraigt   e o h hvr hr aylnigt nre i a ra a ot i auh.iua o lbege o o a o n o o fwowm o"
