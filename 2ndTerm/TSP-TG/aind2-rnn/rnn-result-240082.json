@@ -1,0 +1,60 @@
+{
+    "tests": [
+        {
+            "description": "Step 4: Implement a function to window a large text corpus",
+            "traceback": "AssertionError: False is not true : The returned inputs value has an incorrect length.\n",
+            "rubric_item_id": "6513",
+            "result": "F"
+        },
+        {
+            "description": "Step 2: Create a simple RNN model for regression",
+            "traceback": "",
+            "rubric_item_id": "6511",
+            "result": "."
+        },
+        {
+            "description": "Step 5: Create an RNN to perform multiclass classification",
+            "traceback": "",
+            "rubric_item_id": "6514",
+            "result": "."
+        },
+        {
+            "description": "Step 3: Clean up a large text corpus",
+            "traceback": "",
+            "rubric_item_id": "6512",
+            "result": "."
+        },
+        {
+            "description": "Step 1: Implement a function to window time series",
+            "traceback": "",
+            "rubric_item_id": "6510",
+            "result": "."
+        }
+    ],
+    "critiques": {
+        "806": {
+            "rubric_items": {
+                "6512": {
+                    "observation": "Correct!",
+                    "result": "passed"
+                },
+                "6513": {
+                    "observation": "```\nNot all of the tests passed.\n\n\n************************************************************************\n                         Test Failure Feedback                          \n************************************************************************\n\nFailed Test: Step 4: Implement a function to window a large text corpus\n----------------------------------------------------------------------\nAssertionError: False is not true : The returned inputs value has an incorrect length.\n\n\n************************************************************************\n                          Test Result Summary                           \n************************************************************************\n\nStep 4: Implement a function to window a large text corpus             F\n\n\n```",
+                    "result": "failed"
+                },
+                "6511": {
+                    "observation": "Correct!",
+                    "result": "passed"
+                },
+                "6510": {
+                    "observation": "Correct!",
+                    "result": "passed"
+                },
+                "6514": {
+                    "observation": "Correct!",
+                    "result": "passed"
+                }
+            }
+        }
+    }
+}
